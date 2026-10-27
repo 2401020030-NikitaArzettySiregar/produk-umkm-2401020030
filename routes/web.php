@@ -50,7 +50,7 @@ Route::get('/produk', function (Request $request) {
             $sql .= ' AND (p.kode_produk LIKE :cari_kode
                         OR p.nama_produk LIKE :cari_nama
                         OR p.sku LIKE :cari_sku)';
-            $pola = '%' . $kataKunci . '%';
+            $pola = '%' . addcslashes($kataKunci, '%_\\') . '%';
             $parameter['cari_kode'] = $pola;
             $parameter['cari_nama'] = $pola;
             $parameter['cari_sku'] = $pola;
