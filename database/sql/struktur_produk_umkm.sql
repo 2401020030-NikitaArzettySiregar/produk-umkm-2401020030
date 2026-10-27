@@ -1,0 +1,29 @@
+CREATE DATABASE IF NOT EXISTS produk_umkm_2401020030
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
+USE produk_umkm_2401020030;
+
+CREATE TABLE kategori_produk (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nama_kategori VARCHAR(100) NOT NULL UNIQUE
+) ENGINE=InnoDB;
+
+CREATE TABLE produk (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    kode_produk CHAR(10) NOT NULL UNIQUE,
+    nama_produk VARCHAR(100) NOT NULL,
+    sku VARCHAR(30) NOT NULL UNIQUE,
+    stok SMALLINT UNSIGNED NOT NULL,
+    kategori_produk_id BIGINT UNSIGNED NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_produk_kategori_produk
+        FOREIGN KEY (kategori_produk_id)
+        REFERENCES kategori_produk(id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT chk_stok
+        CHECK (stok BETWEEN 0 AND 500)
+) ENGINE=InnoDB;
